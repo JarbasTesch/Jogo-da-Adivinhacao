@@ -1,0 +1,78 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+int main(){
+
+printf("\nBem vindo ao jogo da adivinhação.\n\nSeu objetivo é acertar o número secreto aleatório\nde 1 a 99.\n\nVamos começar!\n\n");
+
+int segundos = time(0);
+    srand(segundos);
+
+int numerorand = rand();
+    
+int numerosecreto = numerorand % 100;
+double pontos = 100;
+
+int tentativas = 1;
+int chances;
+int dificuldade;
+int acertou = 0;
+    printf("Escolha a dificuldade do jogo!\n(1)Fácil (2)Médio (3)Difícil\n");
+    scanf("%d", &dificuldade);
+switch(dificuldade){
+    case 1:
+        chances = 12;
+        break;
+    case 2:
+        chances = 8;
+        break;
+    default: 
+        chances = 6;
+        break;
+    } 
+    printf("\nPois bem, tem %d chances para acertar.\n", chances);
+
+
+        for(int i = 1; i <= chances; i++) {
+    
+            int chute;
+            printf("\nTentativa %d.", tentativas);
+            printf("\nQual seu chute?\n");
+            scanf("%d", &chute);
+    
+            if (chute < 0){
+                printf("Seu chute não pode ser negativo!\n");
+                continue;
+            }
+        
+            acertou = chute == numerosecreto;
+            int menor = numerosecreto < chute;
+        
+            if(acertou){
+                break;
+            }
+
+            else if (i == chances){
+                break;
+            }
+            
+            else if(menor){
+                 printf("O número secreto é menor que %d.\n", chute);
+            }
+    
+            else{
+                printf("O número secreto é maior que %d.\n", chute);
+            }        
+    
+        tentativas++;
+        double pontosperdidos = abs(chute - numerosecreto) / (double)2;
+            pontos = pontos - pontosperdidos;
+        }
+    if(acertou){
+        printf("\nParabéns, você acertou em %d tentativas!\nSua pontuação foi de: %.1f pontos.\n\nFim de jogo.",tentativas, pontos);
+    }
+    else{
+        printf("\nVocê perdeu.\nTente novamente.\nO número secreto era %d\n\nFim de jogo.", numerosecreto);
+    }
+}
